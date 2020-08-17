@@ -1746,6 +1746,8 @@ Plrs.PlayerRemoving:Connect(function(Plr)
 end)
 
 library:Init()
+hintmsg.Text = "Initialization Complete, Enjoy 😎"
+wait(.5)
 uiwatermark()
 hintmsg:Remove()
 line()
