@@ -944,6 +944,13 @@ function createinfothingy()
 	end
 end
 
+function createchangelog()
+	rconsolename("-- Changelog For Saber Simuwulator "..version.." --")
+	rconsoleprint("@@MAGENTA@@")
+	rconsoleprint("[+] Reworked UI-Library Framework uwu")
+	rconsoleprint("\n[+] Added This Epic Changelog")
+end
+
 function createnotification()
 	local Notification = Instance.new("Frame")
 	local Message = Instance.new("TextLabel")
@@ -1746,6 +1753,7 @@ Plrs.PlayerRemoving:Connect(function(Plr)
 end)
 
 library:Init()
+createchangelog()
 hintmsg.Text = "Initialization Complete, Enjoy 😎"
 wait(.5)
 uiwatermark()
