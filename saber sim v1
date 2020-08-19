@@ -80,7 +80,7 @@ local Teams = game:GetService("Teams");
 local UserInput = game:GetService("UserInputService");
 local Light = game:GetService("Lighting");
 local HTTP = game:GetService("HttpService");
-local version = "1.4";
+local version = "1.4.1";
 local gamename = "Vect0rs Hub";
 local notifmsg = "[Vect0rs Hub] Loaded; uwu simulator UI";
 local RepStor = game:GetService("ReplicatedStorage");
@@ -945,10 +945,24 @@ function createinfothingy()
 end
 
 function createchangelog()
-	rconsolename("-- Changelog For Saber Simuwulator "..version.." --")
+	rconsolename("-- Changelog For UwU Simulator -- ")
 	rconsoleprint("@@MAGENTA@@")
-	rconsoleprint("[+] Reworked UI-Library Framework uwu")
-	rconsoleprint("\n[+] Added This Epic Changelog")
+	rconsoleprint("-- Changelog For UwU Simulatorr "..version)
+	rconsoleprint("\n[+] Fixed Lag With AutoSwing :sunglasses:")
+	rconsoleprint("\n[+] Added Anti-AFK :D")
+	rconsoleprint("@@MAGENTA@@")
+	rconsoleprint("-- Changelog For UwU Simulatorr 1.4")
+	rconsoleprint("@@WHITE@@")
+	rconsoleprint("\n[+] Reworked UI-Library Framework uwu")
+end
+
+function antiafk()
+	local vu = game:GetService("VirtualUser")
+		game:GetService("Players").LocalPlayer.Idled:connect(function()
+		vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		wait(1)
+		vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+	end)
 end
 
 function createnotification()
@@ -1264,15 +1278,15 @@ espsettings:AddColor({text = "Ally Color", flag = "color", color = Color3.fromRG
 end})
 
 character:AddSlider({text = "WalkSpeed", value = 16, min = 0, max = 150, callback = function(a)
-	while wait() do
+	game.Players.LocalPlayer.Character.Humanoid.Changed:Connect(function()
 		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = a
-	end
+	end)
 end})
 
 character:AddSlider({text = "JumpPower", value = 50, min = 0, max = 500, callback = function(a)
-	while wait() do
+	game.Players.LocalPlayer.Character.Humanoid.Changed:Connect(function()
 		game.Players.LocalPlayer.Character.Humanoid.JumpPower = a
-	end
+	end)
 end})
 
 character:AddToggle({text = "Fly", callback = function(a)
@@ -1424,7 +1438,7 @@ autooptions:AddToggle({text = "AutoKill Boss", callback = function(a)
 			sendnotification()
 		end
 		while settings.autokillboss do
-			wait()
+			wait(.8)
 			if game:GetService("Workspace"):FindFirstChild("Boss") and not settings.bossalive then
 				local Boss = game:GetService("Workspace").Boss.HumanoidRootPart.Position
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Boss.X, 186.29756164551, Boss.Z)
@@ -1765,4 +1779,5 @@ notifmsg = "[Vect0rs Hub] Loaded; uwu simulator UI";
 sendnotification()
 notifmsg = "Version; "..version
 sendnotification()
+antiafk()
 createinfothingy()
