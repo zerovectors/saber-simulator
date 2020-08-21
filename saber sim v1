@@ -1703,6 +1703,7 @@ uisettings:AddColor({text = "Cursor Color", flag = "color", color = Color3.fromR
 	game.CoreGui.uwuware.Cursor.ImageColor3 = settings.CursorColor
 end})
 
+
 if game.Players.LocalPlayer.UserId == 278723686 then
 	uisettings:AddToggle({text = "UI Watermark", state = true, callback = function(a)
 		game.CoreGui:WaitForChild("uwuware").watermark.Visible = a
@@ -1711,6 +1712,21 @@ if game.Players.LocalPlayer.UserId == 278723686 then
 		_G.cursorenabled = a
 		game.CoreGui.uwuware.Cursor.Visible = a
 	end})
+	local devmenu = library:CreateWindow("Developer Shit")
+	devmenu:AddButton({text = "Copy Char Vector3 Position", callback = function()
+		setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position))
+		notifmsg = "Copied Character Vector3 To Clipboard"
+		sendnotification()
+	end})
+	devmenu:AddButton({text = "Copy Char CFrame Position", callback = function()
+		setclipboard(tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame))
+		notifmsg = "Copied Character CFrame To Clipboard"
+		sendnotification()
+	end})
+	devmenu:AddButton({text = "Custom Remote Spy", callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/remote-spys/master/sentinel_spy", true))()
+	end})
+
 elseif game.Players.LocalPlayer.UserId == 425451555 then
 	uisettings:AddToggle({text = "UI Watermark", state = true, callback = function(a)
 		game.CoreGui:WaitForChild("uwuware").watermark.Visible = a
@@ -1722,7 +1738,6 @@ elseif game.Players.LocalPlayer.UserId == 425451555 then
 end
 
 local toplineoptions = uisettings:AddFolder("Topbar")
-
 toplineoptions:AddColor({text = "Line Colour", flag = "color", color = Color3.fromRGB(221, 3, 255), callback = function(a)
 	settings.LineColour = a
 	splitline.BackgroundColor3 = settings.LineColour
