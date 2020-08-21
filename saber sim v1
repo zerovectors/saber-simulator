@@ -1700,16 +1700,24 @@ end})
 
 uisettings:AddColor({text = "Cursor Color", flag = "color", color = Color3.fromRGB(221, 3, 255), callback = function(a)
 	settings.CursorColor = a
-	Cursor.ImageColor3 = settings.CursorColor
+	game.CoreGui.uwuware.Cursor.ImageColor3 = settings.CursorColor
 end})
 
 if game.Players.LocalPlayer.UserId == 278723686 then
 	uisettings:AddToggle({text = "UI Watermark", state = true, callback = function(a)
 		game.CoreGui:WaitForChild("uwuware").watermark.Visible = a
 	end})
+	uisettings:AddToggle({text = "Cursor", state = true, callback = function(a)
+		_G.cursorenabled = a
+		game.CoreGui.uwuware.Cursor.Visible = a
+	end})
 elseif game.Players.LocalPlayer.UserId == 425451555 then
 	uisettings:AddToggle({text = "UI Watermark", state = true, callback = function(a)
 		game.CoreGui:WaitForChild("uwuware").watermark.Visible = a
+	end})
+	uisettings:AddToggle({text = "Cursor", state = true, callback = function(a)
+		_G.cursorenabled = a
+		game.CoreGui.uwuware.Cursor.Visible = a
 	end})
 end
 
