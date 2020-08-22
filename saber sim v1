@@ -80,7 +80,7 @@ local Teams = game:GetService("Teams");
 local UserInput = game:GetService("UserInputService");
 local Light = game:GetService("Lighting");
 local HTTP = game:GetService("HttpService");
-local version = "1.4.1";
+local version = "1.4.2";
 local gamename = "Vect0rs Hub";
 local notifmsg = "[Vect0rs Hub] Loaded; uwu simulator UI";
 local RepStor = game:GetService("ReplicatedStorage");
@@ -947,13 +947,14 @@ end
 function createchangelog()
 	rconsolename("-- Changelog For UwU Simulator -- ")
 	rconsoleprint("@@MAGENTA@@")
-	rconsoleprint("-- Changelog For UwU Simulatorr "..version)
+	rconsoleprint("-- Changelog For UwU Simulatorr 1.4.1")
+	rconsoleprint("@@WHITE@@")
+	rconsoleprint("\n[+] Reworked The Notification Function, Instead Of Needing To Use 2 Lines To Send A Notification I Now Only Have To Use 1 Line :D This Has Reduced Scripts Like The Bee Sim UI's Code By 50-100 Lines")
+	rconsoleprint("@@MAGENTA@@")
+	rconsoleprint("\n-- Changelog For UwU Simulatorr 1.4.1")
+	rconsoleprint("@@WHITE@@")
 	rconsoleprint("\n[+] Fixed Lag With AutoSwing :sunglasses:")
 	rconsoleprint("\n[+] Added Anti-AFK :D")
-	rconsoleprint("@@MAGENTA@@")
-	rconsoleprint("-- Changelog For UwU Simulatorr 1.4")
-	rconsoleprint("@@WHITE@@")
-	rconsoleprint("\n[+] Reworked UI-Library Framework uwu")
 end
 
 function antiafk()
@@ -1000,11 +1001,11 @@ function createnotification()
 	Message.TextSize = 21.000
 end
 
-function sendnotification()
+function sendnotification(text)
 	game.CoreGui:WaitForChild("uwuware").Notification:TweenSize(UDim2.new(0, 1917,0, 26), "Out", "Linear", .2, true)
 	wait(.2)
-	for i = 1, #notifmsg do
-		game.CoreGui:WaitForChild("uwuware").Notification.Message.Text = string.sub(notifmsg, 1, i)
+	for i = 1, #text do
+		game.CoreGui:WaitForChild("uwuware").Notification.Message.Text = string.sub(text, 1, i)
 		wait(.03)
 	end
 	wait(.2)
@@ -1015,8 +1016,7 @@ end
 function checkwhitelist()
 	local whitelistecheck = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/ui-library-test/master/totally%20secure%20whitelist", true))()
 	if whitelistecheck[game:service('Players').LocalPlayer.UserId] then
-		notifmsg = "Welcome "..game.Players.LocalPlayer.Name.." You Have Been Successfully Whitelisted"
-		sendnotification()
+		sendnotification("Welcome "..game.Players.LocalPlayer.Name.." You Have Been Successfully Whitelisted")
 	else
 		game.Players.LocalPlayer:Kick("Oh no your not whitelisted dm me on discord; vect0rs#2851")
 	end
@@ -1117,12 +1117,10 @@ visuals:AddToggle({text = "Fullbright", state = false, callback = function(a)
     settings.fullbright = a
 	if settings.fullbright then
 		fullbright()
-		notifmsg = "Set Fullbright To ON"
-		sendnotification()
+		sendnotification("FullBright Enabled")
 	else
 		fullbright()
-		notifmsg = "Set Fullbright To OFF"
-		sendnotification()
+		sendnotification("FullBright Disabled")
 	end
 end})
 
@@ -1145,7 +1143,6 @@ visuals:AddColor({text = "Saber Color", flag = "color", color = Color3.fromRGB(2
 end})
 
 local espoptions = visuals:AddFolder("ESP Options")
-
 espoptions:AddToggle({text = "ESP", state = false, callback = function(a)
 	settings.ESPEnabled = a
 	if settings.ESPEnabled then
@@ -1166,14 +1163,12 @@ espoptions:AddToggle({text = "ESP", state = false, callback = function(a)
 	                CreateESP(v)
 	            end
 	        end
-	       	notifmsg = "Set ESP To ON"
-			sendnotification()
+			sendnotification("ESP Enabled")
 		else
 	        warn("esp disabled")
 	        PlayerESP:ClearAllChildren()
 	        ItemESP:ClearAllChildren()
-	    	notifmsg = "Set ESP To OFF"
-			sendnotification()
+	    	sendnotification("ESP Disabled")
 	end
 end})
 
@@ -1197,14 +1192,12 @@ espoptions:AddToggle({text = "Chams", state = false, callback = function(a)
 				CreateChams(v)
 			end
 		end
-		notifmsg = "Set Chams To ON"
-		sendnotification()
+		sendnotification("Chams Enabled")
 		else
 		warn("chams disabled")
 		PlayerChams:ClearAllChildren()
 		ItemChams:ClearAllChildren()
-		notifmsg = "Set Chams To OFF"
-		sendnotification()
+		sendnotification("Chams Disabled")
 	end
 end})
 
@@ -1232,15 +1225,13 @@ espoptions:AddToggle({text = "Tracers", state = false, callback = function(a)
 				CreateTracers(v)
 			end
 		end
-		notifmsg = "Set Tracers To ON"
-		sendnotification()
+		sendnotification("Tracers Enabled")
 		else
 		warn("tracers disabled")
 		for _, v in next, Plrs:GetPlayers() do
 			RemoveTracers(v)
 		end
-		notifmsg = "Set Tracers To OFF"
-		sendnotification()
+		sendnotification("Tracers Disabled")
 	end
 end})
 
@@ -1293,31 +1284,17 @@ character:AddToggle({text = "Fly", callback = function(a)
 	settings.vfly = a
 	if settings.vfly then
 		sFLY()
-		notifmsg = "Set Fly To ON"
-		sendnotification()
+		sendnotification("Fly Enabled")
 	else
 		NOFLY()
-		notifmsg = "Set Fly To OFF"
-		sendnotification()
-	end
-end})
-
-character:AddToggle({text = "Vehicle Fly", callback = function(a)
-	settings.vfly = a
-	if settings.vfly then
-		sFLY(true)
-		notifmsg = "Set Vehicle Fly To ON"
-		sendnotification()
-	else
-		NOFLY()
-		notifmsg = "Set Vehicle Fly To OFF"
-		sendnotification()
+		sendnotification("FullBright Disabled")
 	end
 end})
 
 character:AddToggle({text = "Noclip", callback = function(a)
 	settings.noclip = a
 	if settings.noclip then
+		sendnotification("Noclip Enabled")
 	    local function NoclipLoop()
 	      	if game.Players.LocalPlayer.Character ~= nil then
 	          	for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
@@ -1329,6 +1306,7 @@ character:AddToggle({text = "Noclip", callback = function(a)
 	    end
 	    Noclipping = game:GetService('RunService').Stepped:connect(NoclipLoop)
 	  else
+		sendnotification("Noclip Disabled")
 	    if Noclipping then
 	      	Noclipping:Disconnect()
 	    end
@@ -1338,15 +1316,11 @@ end})
 miscellaneous:AddToggle({text = "Low Gravity", state = false, callback = function(a)
 	settings.lowgravity = a
 	if settings.lowgravity then
-		notifmsg = "Set Low Gravity To ON"
-		sendnotification()
 		workspace.Gravity = 60
-		notifmsg = "Set Low Gravity To ON"
-		sendnotification()
+		sendnotification("Low Gravity Enabled")
 	else
 		workspace.Gravity = 196
-		notifmsg = "Set Low Gravity To OFF"
-		sendnotification()
+		sendnotification("Low Gravity Disabled")
 	end
 end})
 
@@ -1355,15 +1329,12 @@ miscellaneous:AddSlider({text = "Gravity", value = 196, min = 0, max = 196, call
 end})
 
 local autooptions = miscellaneous:AddFolder("Auto Options")
-
 autooptions:AddToggle({text = "AutoSwing", callback = function(a)
 	settings.autoswing = a
 	if settings.autoswing then
-		notifmsg = "AutoSwing Enabled"
-		sendnotification()
+		sendnotification("AutoSwing Enabled")
 	else
-		notifmsg = "AutoSwing Disabled"
-		sendnotification()
+		sendnotification("AutoSwing Disabled")
 	end
 	for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
 		if v:IsA("Tool") and v:FindFirstChild("RemoteClick") then
@@ -1380,11 +1351,9 @@ end})
 autooptions:AddToggle({text = "AutoSell", callback = function(a)
 	settings.autosell = a
 	if settings.autosell then
-		notifmsg = "AutoSell Enabled"
-		sendnotification()
+		sendnotification("AutoSell Enabled")
 		else
-		notifmsg = "AutoSell Disabled"
-		sendnotification()
+			sendnotification("AutoSell Disabled")
 	end
 	while settings.autosell do
 		wait()
@@ -1400,16 +1369,14 @@ end})
 autooptions:AddToggle({text = "AutoFarm", callback = function(a)
 	settings.autofarm = a
 	if settings.autofarm then
-		notifmsg = "AutoFarm Enabled"
-		sendnotification()
+		sendnotification("AutoFarm Enabled")
 		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
 			if v:IsA("Tool") and v:FindFirstChild("RemoteClick") then
 				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
 			else return end
 		end
 		else
-		notifmsg = "AutoFarm Disabled"
-		sendnotification()
+		sendnotification("AutoFarm Disabled")
 	end
 	while settings.autofarm do
 		wait()
@@ -1428,8 +1395,7 @@ end})
 autooptions:AddToggle({text = "AutoKill Boss", callback = function(a)
 	settings.autokillboss = a
 	if settings.autokillboss and settings.autoswing then
-		notifmsg = "AutoKill Boss Enabled"
-		sendnotification()
+		sendnotification("AutoKill Boss Enabled")
 		if game:GetService("Workspace"):FindFirstChild("Boss") then
 			local Boss = game:GetService("Workspace").Boss.HumanoidRootPart.Position
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Boss.X, 186.29756164551, Boss.Z)
@@ -1438,7 +1404,7 @@ autooptions:AddToggle({text = "AutoKill Boss", callback = function(a)
 			sendnotification()
 		end
 		while settings.autokillboss do
-			wait(.8)
+			wait(.4)
 			if game:GetService("Workspace"):FindFirstChild("Boss") and not settings.bossalive then
 				local Boss = game:GetService("Workspace").Boss.HumanoidRootPart.Position
 				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Boss.X, 186.29756164551, Boss.Z)
@@ -1454,11 +1420,9 @@ autooptions:AddToggle({text = "AutoKill Boss", callback = function(a)
 			end
 		end
 	elseif settings.autokillboss == false then
-		notifmsg = "AutoKill Boss Disabled"
-		sendnotification()
+		sendnotification("AutoKill Boss Disabled")
 	else
-		notifmsg = "Turn On AutoSwing First Then AutoKill Boss"
-		sendnotification()
+		sendnotification("Enable AutoSwing First Then Enable AutoKill Boss")
 		settings.autokillboss = false
 	end
 end})
@@ -1466,36 +1430,37 @@ end})
 local autobuyoptions = autooptions:AddFolder("Auto Buy Options")
 autobuyoptions:AddToggle({text = "AutoBuy Sabers", callback = function(a)
 	settings.autobuysabers = a
+	if settings.autobuysabers then
+		sendnotification("AutoBuy Sabers Enabled")
+	else
+		sendnotification("AutoBuy Sabers Disabled")
+	end
 	while settings.autobuysabers do
 		wait()
 		game:GetService("ReplicatedStorage").Events.BuyAll:FireServer("Swords")
-	end
-	if settings.autobuysabers then
-		notifmsg = "Auto Buy Sabers Enabled"
-		sendnotification()
-	else
-		notifmsg = "Auto Buy Sabers Disabled"
-		sendnotification()
 	end
 end})
 
 autobuyoptions:AddToggle({text = "AutoBuy DNA", callback = function(a)
 	settings.autobuydna = a
+	if settings.autobuydna then
+		sendnotification("AutoBuy DNA Enabled")
+	else
+		sendnotification("AutoBuy DNA Disabled")
+	end
 	while settings.autobuydna do
 		wait()
 		game:GetService("ReplicatedStorage").Events.BuyAll:FireServer("Backpacks")
-	end
-	if settings.autobuydna then
-		notifmsg = "Auto Buy DNA Enabled"
-		sendnotification()
-	else
-		notifmsg = "Auto Buy DNA Disabled"
-		sendnotification()
 	end
 end})
 
 autobuyoptions:AddToggle({text = "AutoBuy Rank", callback = function(a)
 	settings.autobuyrank = a
+	if settings.autobuyrank then
+		sendnotification("AutoBuy Rank Enabled")
+	else
+		sendnotification("AutoBuy Rank Disabled")
+	end
 	while settings.autobuyrank do
 		wait()
 		for i,v in pairs(game.ReplicatedStorage.ShopItems.Classes:GetChildren()) do
@@ -1508,61 +1473,53 @@ end})
 
 autobuyoptions:AddToggle({text = "AutoBuy Jump Boosts", callback = function(a)
 	settings.autobuyjumpboosts = a
+	if settings.autobuyjumpboosts then
+		sendnotification("AutoBuy Jump Boosts Enabled")
+	else
+		sendnotification("AutoBuy Jump Boosts Disabled")
+	end
 	while settings.autobuyjumpboosts do
 		wait()
 		game:GetService("ReplicatedStorage").Events.BuyAll:FireServer("JumpBoosts")
-	end
-	if settings.autobuyjumpboosts then
-		notifmsg = "Auto Buy Jump Boosts Enabled"
-		sendnotification()
-	else
-		notifmsg = "Auto Buy Jump Boosts Disabled"
-		sendnotification()
 	end
 end})
 
 autobuyoptions:AddToggle({text = "AutoBuy Auras", callback = function(a)
 	settings.autobuyauras = a
+	if settings.autobuyauras then
+		sendnotification("AutoBuy Auras Enabled")
+	else
+		sendnotification("AutoBuy Auras Disabled")
+	end
 	while settings.autobuyauras do
 		wait()
 		game:GetService("ReplicatedStorage").Events.BuyAll:FireServer("Auras")
-	end
-	if settings.autobuyauras then
-		notifmsg = "Auto Buy Auras Enabled"
-		sendnotification()
-	else
-		notifmsg = "Auto Buy Auras Disabled"
-		sendnotification()
 	end
 end})
 
 autobuyoptions:AddToggle({text = "AutoBuy Boss Hits", callback = function(a)
 	settings.autobuybosshits = a
+	if settings.autobuybosshits then
+		sendnotification("AutoBuy Hits Enabled")
+	else
+		sendnotification("AutoBuy Hits Disabled")
+	end
 	while settings.autobuybosshits do
 		wait()
 		game:GetService("ReplicatedStorage").Events.BuyAll:FireServer("BossBoosts")
-	end
-	if settings.autobuybosshits then
-		notifmsg = "Auto Buy Boss Hits Enabled"
-		sendnotification()
-	else
-		notifmsg = "Auto Buy Boss Hits Disabled"
-		sendnotification()
 	end
 end})
 
 petshit:AddToggle({text = "AutoCraft", callback = function(a)
 	settings.autocraft = a
 	if settings.autocraft then
-		notifmsg = "AutoCraft Enabled"
-		sendnotification()
+		sendnotification("AutoCraft Pets Enabled")
 		while settings.autocraft do
 			game:GetService("ReplicatedStorage").Events.CombineAll:FireServer()
 			wait(10)
 		end
 	else
-		notifmsg = "AutoCraft Disabled"
-		sendnotification()
+		sendnotification("AutoCraft Pets Disabled")
 	end
 end})
 
@@ -1624,33 +1581,27 @@ end
 deletepets:AddToggle({text = "Ignore Golden", callback = function(a)
 	settings.AutoDeleteIgnoreGolden = a
 	if settings.AutoDeleteIgnoreGolden then
-		notifmsg = "Ignore Golden Pets Enabled"
-		sendnotification()
+		sendnotification("Ignore Golden Pets Enabled")
 	else
-		notifmsg = "Ignore Golden Pets Disabled"
-		sendnotification()
+		sendnotification("Ignore Golden Pets Disabled")
 	end
 end})
 
 deletepets:AddToggle({text = "Ignore Shiny", callback = function(a)
 	settings.AutoDeleteIgnoreShiny = a
 	if settings.AutoDeleteIgnoreShiny then
-		notifmsg = "Ignore Shiny Pets Enabled"
-		sendnotification()
+		sendnotification("Ignore Shiny Pets Enabled")
 	else
-		notifmsg = "Ignore Shiny Pets Disabled"
-		sendnotification()
+		sendnotification("Ignore Shiny Pets Disabled")
 	end
 end})
 
 deletepets:AddToggle({text = "Ignore Rainbow", callback = function(a)
 	settings.AutoDeleteIgnoreRainbow = a
 	if settings.AutoDeleteIgnoreRainbow then
-		notifmsg = "Ignore Rainbow Pets Enabled"
-		sendnotification()
+		sendnotification("Ignore Rainbow Pets Enabled")
 	else
-		notifmsg = "Ignore Rainbow Pets Disabled"
-		sendnotification()
+		sendnotification("Ignore Rainbow Pets Enabled")
 	end
 end})
 
@@ -1662,8 +1613,7 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Eggs:GetChildren()) do
 			if x:FindFirstChild("SignPart") then
 				if x.SignPart.EggName.Value == v.Name then
 					autohatcheggoptions:AddToggle({text = v.Name .. " [" .. x.SignPart.EggsSurfaceGui.Frame.Amount.Text .. " " .. v.Currency.Value .. "]", callback = function(a)
-						notifmsg = "Auto Hatching " ..v.Name.." Enabled"
-						sendnotification()
+						sendnotification("Auto Hatching " ..v.Name.." Enabled")
 						if a then
 							_G["AutoHatch" .. v.Name:gsub(" ", "")] = true
 							while _G["AutoHatch" .. v.Name:gsub(" ", "")] do
@@ -1671,8 +1621,7 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Eggs:GetChildren()) do
 								wait()
 							end
 						else
-							notifmsg = "Auto Hatching " ..v.Name.." Disabled"
-							sendnotification()
+							sendnotification("Auto Hatching " ..v.Name.." Disabled")
 							_G["AutoHatch" .. v.Name:gsub(" ", "")] = false
 						end
 					end})
@@ -1683,8 +1632,7 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Eggs:GetChildren()) do
 end
 
 miscellaneous:AddButton({text = "Unlock All Islands", callback = function()
-	notifmsg = "Unlocking All Islands, This Could Take A Minute UwU"
-	sendnotification()
+	sendnotification("Unlocking All Islands, This Could Take A Minute UwU")
 	for i = 1,20 do
 		for i,v in pairs(game.workspace.IslandDoors:GetChildren()) do
 			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.P1.Value
@@ -1692,10 +1640,12 @@ miscellaneous:AddButton({text = "Unlock All Islands", callback = function()
 			wait(.2)
 		end
 	end
+	sendnotification("Successfully Unlocked All Islands")
 end})
 
 miscellaneous:AddButton({text = "ReJoin", callback = function()
 	game:GetService('TeleportService'):Teleport(game.PlaceId)
+	sendnotification("ReJoining")
 end})
 
 uisettings:AddColor({text = "Cursor Color", flag = "color", color = Color3.fromRGB(221, 3, 255), callback = function(a)
@@ -1798,9 +1748,7 @@ hintmsg:Remove()
 line()
 createnotification()
 checkwhitelist()
-notifmsg = "[Vect0rs Hub] Loaded; uwu simulator UI";
-sendnotification()
-notifmsg = "Version; "..version
-sendnotification()
+sendnotification("[Vect0rs Hub] Loaded; uwu simulator UI")
+sendnotification("Version; "..version)
 antiafk()
 createinfothingy()
