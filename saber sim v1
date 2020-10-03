@@ -80,9 +80,8 @@ local Teams = game:GetService("Teams");
 local UserInput = game:GetService("UserInputService");
 local Light = game:GetService("Lighting");
 local HTTP = game:GetService("HttpService");
-local version = "1.4.2";
+local version = "1.5";
 local gamename = "Vect0rs Hub";
-local notifmsg = "[Vect0rs Hub] Loaded; uwu simulator UI";
 local RepStor = game:GetService("ReplicatedStorage");
 local MyCam = GetCamera();
 if MyCam == nil then
@@ -966,6 +965,37 @@ function antiafk()
 	end)
 end
 
+function bypassanti()
+	while wait() do
+		game.Players.LocalPlayer.Character:WaitForChild("AntiPort"):Destroy()
+		game.Players.LocalPlayer.Character:WaitForChild("AntiPortNew"):Destroy()
+	end
+end
+
+function autocollectcandy()
+	while library.flags.autocollectcandy do
+		local plr = game.Players.LocalPlayer
+		for i,v in pairs(game.Workspace.CandyHolder:GetChildren()) do
+			if v and plr.Character:FindFirstChild("HumanoidRootPart") and v:IsA("MeshPart") or v:IsA("Part") then
+				wait(0.2)
+				plr.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,1,0)
+			end
+		end
+	end
+end
+
+function autocollectcoins()
+	while library.flags.autocollectcoins do
+		local plr = game.Players.LocalPlayer
+		for i,v in pairs(game.Workspace.CoinsHolder:GetChildren()) do
+			if v and plr.Character:FindFirstChild("HumanoidRootPart") and v:IsA("MeshPart") or v:IsA("Part") then
+				wait(0.2)
+				plr.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,1,0)
+			end
+		end
+	end
+end
+
 function createnotification()
 	local Notification = Instance.new("Frame")
 	local Message = Instance.new("TextLabel")
@@ -1631,6 +1661,16 @@ for i, v in pairs(game:GetService("ReplicatedStorage").Eggs:GetChildren()) do
 	end
 end
 
+miscellaneous:AddToggle({text = "Auto Collect Coins", flag = "autocollectcoins", callback = function(a)
+	library.flags.autocollectcoins = a
+	autocollectcoins()
+end})
+
+miscellaneous:AddToggle({text = "Auto Collect Candy", flag = "autocollectcandy", callback = function(a)
+	library.flags.autocollectcandy = a
+	autocollectcandy()
+end})
+
 miscellaneous:AddButton({text = "Unlock All Islands", callback = function()
 	sendnotification("Unlocking All Islands, This Could Take A Minute UwU")
 	for i = 1,20 do
@@ -1676,7 +1716,18 @@ if game.Players.LocalPlayer.UserId == 278723686 then
 	devmenu:AddButton({text = "Custom Remote Spy", callback = function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/remote-spys/master/sentinel_spy", true))()
 	end})
-
+	devmenu:AddButton({text = "Classic Dex (white mode)", callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/dex/master/classic%20dex", true))()
+	end})
+	devmenu:AddButton({text = "Dark Dex v2", callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/dex/master/dark%20dexv2", true))()
+	end})
+	devmenu:AddButton({text = "Dark Dex v3", callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/dex/master/dark%20dex%20v3", true))()
+	end})
+	devmenu:AddButton({text = "Dark Dex v4", callback = function()
+		loadstring(game:GetObjects('rbxassetid://2180084478')[1].Source)()
+	end})
 elseif game.Players.LocalPlayer.UserId == 425451555 then
 	uisettings:AddToggle({text = "UI Watermark", state = true, callback = function(a)
 		game.CoreGui:WaitForChild("uwuware").watermark.Visible = a
@@ -1751,4 +1802,5 @@ checkwhitelist()
 sendnotification("[Vect0rs Hub] Loaded; uwu simulator UI")
 sendnotification("Version; "..version)
 antiafk()
+bypassanti()
 createinfothingy()
