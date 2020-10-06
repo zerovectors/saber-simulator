@@ -3,7 +3,7 @@ local hintmsg = Instance.new("Hint", game.CoreGui)
 local attempt = tick()
 hintmsg.Text = "Initializing UI Library This Can Take Up To 30 Seconds"
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zerovectors/framework/master/vect0rs%20hub%20framework%20uwuware%20checkmarks", true))()
-local version = "2"
+local version = "2.1"
 local uiname = "Saber Simuwulator"
 local ui = { }
 local main = { }
@@ -98,7 +98,7 @@ do -- loops
     loopfunctions:RunLoop("Version_Check", function()
         local data = loadstring(game:HttpGet("https://pastebin.com/raw/MhwMYaFu", true))()
         messages_of_the_day = data.messages_of_the_day
-        data = data["Default UI"]
+        data = data["Saber Simulator"]
         local current_version, reason = data.version, data.reason
         if version ~= current_version then
             if data.force_kick then
@@ -198,7 +198,15 @@ do -- loops
                     for _,x in pairs(game:GetService("ReplicatedStorage").Pets:GetChildren()) do
                         if v:FindFirstChild("IMG") then
                             if x.Name == v.IMG:GetChildren()[1].Name then
-                                table.insert(main.pets, v.Name)
+                                if library.flags.IgnoreGray and x.Rarity.Value == 1 then
+                                elseif library.flags.IgnoreGreen and x.Rarity.Value == 2 then
+                                elseif library.flags.IgnoreBlue and x.Rarity.Value == 3 then
+                                elseif library.flags.IgnorePurple and x.Rarity.Value == 4 then
+                                elseif library.flags.IgnoreOrange and x.Rarity.Value == 5 then
+                                elseif library.flags.IgnoreMoon and x.Rarity.Value == 6 then
+                                else
+                                    table.insert(main.pets, v.Name)
+                                end
                             end
                         end
                     end
@@ -206,7 +214,7 @@ do -- loops
             end
         end
         game:GetService("ReplicatedStorage").Events.PetCommand:FireServer(main.pets, "DeleteMulti")
-    end, Run.RenderStepped)
+    end, 0.5)
 end
 do -- main
     main.espsettings = {
@@ -324,6 +332,12 @@ do -- main
             Settings.autobuyauras = library.flags.autobuyauras
             Settings.autobuybosshits = library.flags.autobuybosshits
             Settings.autodeletepets = library.flags.autodeletepets
+            Settings.ignoregray = library.flags.IgnoreGray
+            Settings.ignoregreen = library.flags.IgnoreGreen
+            Settings.ignoreblue = library.flags.IgnoreBlue
+            Settings.ignorepurple = library.flags.IgnorePurple
+            Settings.ignoreorange = library.flags.IgnoreOrange
+            Settings.ignoremoon = library.flags.IgnoreMoon
             Settings.ignorerainbow = library.flags.IgnoreRainbow
             Settings.ignorevoid = library.flags.IgnoreVoid
             Settings.autokillboss = library.flags.autokillboss
@@ -367,8 +381,14 @@ do -- main
             ui.miscellaneous.autobuyauras:SetState(Settings.autobuyauras)
             ui.miscellaneous.autobuybosshits:SetState(Settings.autobuybosshits)
             ui.miscellaneous.autodeletepets:SetState(Settings.autodeletepets)
-            ui.miscellaneous.ignorerainbow:SetState(Settings.IgnoreRainbow)
-            ui.miscellaneous.ignorevoid:SetState(Settings.IgnoreVoid)
+            ui.miscellaneous.ignoregray:SetState(Settings.IgnoreGray)
+            ui.miscellaneous.ignoregreen:SetState(Settings.ignoregreen)
+            ui.miscellaneous.ignoreblue:SetState(Settings.ignoreblue)
+            ui.miscellaneous.ignorepurple:SetState(Settings.ignorepurple)
+            ui.miscellaneous.ignoreorange:SetState(Settings.ignoreorange)
+            ui.miscellaneous.ignoremoon:SetState(Settings.ignoremoon)
+            ui.miscellaneous.ignorerainbow:SetState(Settings.ignorerainbow)
+            ui.miscellaneous.ignorevoid:SetState(Settings.ignorevoid)
             ui.miscellaneous.autokillboss:SetState(Settings.autokillboss)
         end
         do -- ui settings
@@ -1872,6 +1892,24 @@ do -- ui
             ui.miscellaneous.autodeletepets = ui.miscellaneous.pets:AddToggleFolder({text = "Auto Delete Pets", flag = "autodeletepets", callback = function(a)
                 library.flags.autodeletepets = a
                 main:AutoDeletePets()
+            end})
+            ui.miscellaneous.ignoregray = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Gray", flag = "IgnoreGray", callback = function(a)
+                library.flags.IgnoreGray = a
+            end})
+            ui.miscellaneous.ignoregreen = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Green", flag = "IgnoreGreen", callback = function(a)
+                library.flags.IgnoreGreen = a
+            end})
+            ui.miscellaneous.ignoreblue = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Blue", flag = "IgnoreBlue", callback = function(a)
+                library.flags.IgnoreBlue = a
+            end})
+            ui.miscellaneous.ignorepurple = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Purple", flag = "IgnorePurple", callback = function(a)
+                library.flags.IgnorePurple = a
+            end})
+            ui.miscellaneous.ignoreorange = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Orange", flag = "IgnoreOrange", callback = function(a)
+                library.flags.IgnoreOrange = a
+            end})
+            ui.miscellaneous.ignoremoon = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Moon", flag = "IgnoreMoon", callback = function(a)
+                library.flags.IgnoreMoon = a
             end})
             ui.miscellaneous.ignoregolden = ui.miscellaneous.autodeletepets:AddToggle({text = "Ignore Golden", flag = "IgnoreGolden", callback = function(a)
                 library.flags.IgnoreGolden = a
